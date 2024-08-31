@@ -74,7 +74,7 @@ if __name__ == "__main__":
         
         print(f"list: {array}\n")
 
-        resultado=par_menor_diferenca(array)
+        resultado=par_menor_diferenca(array)  #<<<<---------- MODIFIQUE OS PARAMETROS AQUI
 
         print(f"Output: {resultado}")
     

@@ -35,9 +35,6 @@ def gerar_subconjuntos(conjunto, max_size=float('inf'), min_size=0, distinct_onl
                 min_list_size.append(i)
             list_subset = min_list_size
         
-        """for i in min_list_size:
-            if i in list_subset:
-                list_subset.remove(i)"""
                 
     if sort_subsets:
         sorted_subsets = []
@@ -59,6 +56,6 @@ def gerar_subconjuntos(conjunto, max_size=float('inf'), min_size=0, distinct_onl
 
 if __name__ == "__main__":
     conjunto = [1,2]
-    subconjuntos = gerar_subconjuntos(conjunto)
+    subconjuntos = gerar_subconjuntos(conjunto) #<<<<---------- MODIFIQUE OS PARAMETROS AQUI
 
     print(subconjuntos)
