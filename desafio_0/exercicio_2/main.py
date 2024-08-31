@@ -61,17 +61,23 @@ def par_menor_diferenca(array, allow_duplicates=True, sorted_pairs = False, uniq
 
 if __name__ == "__main__":
     
-    list_size = int(input("Enter list size: "))
-    os.system('cls')
-    array = []
-    
-    for i in range(list_size):
-        n = int(input(f"Enter the index element {i}: "))
-        array.append(n)
+    try:
+        list_size = int(input("Enter list size: "))
+        os.system('cls')
+        array = []
         
-    os.system('cls')
-    print(f"list: {array}\n")
+        for i in range(list_size):
+            n = int(input(f"Enter the index element {i}: "))
+            array.append(n)
+            
+        os.system('cls')
+        
+        print(f"list: {array}\n")
 
-    resultado=par_menor_diferenca(array)
+        resultado=par_menor_diferenca(array)
 
-    print(f"Output: {resultado}")
+        print(f"Output: {resultado}")
+    
+    except ValueError:
+        print("\nEnter a integer number")
+    

@@ -13,6 +13,9 @@ def listaAsteristicos(n):
 
 if __name__ == "__main__":
     
-    listSize = int(input("Enter the list size: "))
+    try:
+        listSize = int(input("Enter the list size: "))
+        print(listaAsteristicos(listSize))
     
-    print(listaAsteristicos(listSize))
+    except ValueError:
+        print("\nEnter a int number")
