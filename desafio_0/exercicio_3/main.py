@@ -12,8 +12,8 @@ def gerar_subconjuntos(conjunto, max_size=float('inf'), min_size=0, distinct_onl
     for elemento in conjunto:
         aux_list = []
         for subset in list_subset:
-            novo_subconjunto = subset + [elemento]     # Cria um novo subconjunto adicionando o elemento atual    
-            aux_list.append(novo_subconjunto)       # Adiciona o novo subconjunto à lista de novos subconjuntos
+            new_subset = subset + [elemento]     # Cria um novo subconjunto adicionando o elemento atual    
+            aux_list.append(new_subset)       # Adiciona o novo subconjunto à lista de novos subconjuntos
         list_subset.extend(aux_list)           # Adiciona os novos subconjuntos à lista principal
     
     
@@ -55,7 +55,7 @@ def gerar_subconjuntos(conjunto, max_size=float('inf'), min_size=0, distinct_onl
     
 
 if __name__ == "__main__":
-    conjunto = [1,2]
+    conjunto = [1,2]          #<<<<---------- MODIFIQUE O CONJUNTO AQUI
     subconjuntos = gerar_subconjuntos(conjunto) #<<<<---------- MODIFIQUE OS PARAMETROS AQUI
 
     print(subconjuntos)
