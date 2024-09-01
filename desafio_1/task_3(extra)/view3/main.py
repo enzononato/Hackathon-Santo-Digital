@@ -12,10 +12,10 @@ def connect_to_db():
         database="py_adv_works"
     )
 
-# Conectar ao banco de dados
+
 db_conn = connect_to_db()
 
-# Ler os dados das tabelas
+# Lendo dados tabela
 sales_2015_df = pd.read_sql('SELECT * FROM adventureworks_sales_2015', con=db_conn)
 sales_2016_df = pd.read_sql('SELECT * FROM adventureworks_sales_2016', con=db_conn)
 sales_2017_df = pd.read_sql('SELECT * FROM adventureworks_sales_2017', con=db_conn)
@@ -24,7 +24,7 @@ products_df = pd.read_sql('SELECT * FROM adventureworks_products', con=db_conn)
 product_subcategories_df = pd.read_sql('SELECT * FROM adventureworks_product_subcategories', con=db_conn)
 product_categories_df = pd.read_sql('SELECT * FROM adventureworks_product_categories', con=db_conn)
 
-# Fechar a conexão com o banco de dados
+
 db_conn.close()
 
 # Concatenar os DataFrames de vendas
@@ -54,7 +54,7 @@ heatmap_data = sales_with_territories.groupby(['Region', 'YearMonth']).agg({'Ord
 # Criar o pivô para o mapa de calor
 heatmap_pivot = heatmap_data.pivot(index='Region', columns='YearMonth', values='OrderQuantity')
 
-# Criar o mapa de calor
+# mapa de calor
 plt.figure(figsize=(14, 8))
 sns.heatmap(heatmap_pivot, cmap='YlGnBu', annot=True, fmt='.0f', linewidths=.5)
 

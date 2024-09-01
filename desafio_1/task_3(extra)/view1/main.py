@@ -12,15 +12,14 @@ def connect_to_db():
         database="py_adv_works"
     )
 
-# Conectar ao banco de dados
 db_conn = connect_to_db()
 
-# Ler os dados das tabelas de vendas
+# Lendo dados tabela
 sales_2015_df = pd.read_sql('SELECT * FROM adventureworks_sales_2015', con=db_conn)
 sales_2016_df = pd.read_sql('SELECT * FROM adventureworks_sales_2016', con=db_conn)
 sales_2017_df = pd.read_sql('SELECT * FROM adventureworks_sales_2017', con=db_conn)
 
-# Fechar a conexão com o banco de dados
+
 db_conn.close()
 
 # Concatenar os DataFrames de vendas
@@ -29,17 +28,17 @@ sales_df = pd.concat([sales_2015_df, sales_2016_df, sales_2017_df])
 # Adicionar coluna de ano e mês
 sales_df['YearMonth'] = pd.to_datetime(sales_df['OrderDate']).dt.to_period('M').astype(str)
 
-# Agregar vendas totais por mês
+# Agrega vendas totais por mês
 monthly_sales = sales_df.groupby('YearMonth').agg({'OrderQuantity': 'sum'}).reset_index()
 
-# Criar o gráfico de linha
+# Cria o gráfico de linha
 plt.figure(figsize=(14, 8))
 sns.lineplot(x='YearMonth', y='OrderQuantity', data=monthly_sales, marker='o')
 
 # Adicionar linha de tendência
 sns.regplot(x=monthly_sales.index, y='OrderQuantity', data=monthly_sales, scatter=False, color='r', label='Linha de Tendência')
 
-# Adicionar labels e título
+#labels
 plt.xlabel('Mês/Ano')
 plt.ylabel('Quantidade Vendida')
 plt.title('Tendência das Vendas Totais ao Longo do Tempo (Mensal)')

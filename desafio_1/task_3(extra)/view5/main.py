@@ -11,16 +11,16 @@ def connect_to_db():
         database="py_adv_works"
     )
 
-# Conectar ao banco de dados
+
 db_conn = connect_to_db()
 
-# Ler os dados das tabelas de vendas e produtos
+# Lendo dados tabela
 sales_2016_df = pd.read_sql('SELECT * FROM adventureworks_sales_2016', con=db_conn)
 sales_2017_df = pd.read_sql('SELECT * FROM adventureworks_sales_2017', con=db_conn)
 products_df = pd.read_sql('SELECT * FROM adventureworks_products', con=db_conn)
 product_categories_df = pd.read_sql('SELECT * FROM adventureworks_product_categories', con=db_conn)
 
-# Fechar a conexão com o banco de dados
+
 db_conn.close()
 
 # Juntar vendas com dados dos produtos e categorias para obter o preço e categoria
@@ -68,7 +68,7 @@ for category in monthly_sales_pivot['Sales2017'].columns:
     plt.bar(monthly_sales_pivot.index, monthly_sales_pivot[('Sales2017', category)], label=f'2017 - {category}', bottom=bottoms)
     bottoms += monthly_sales_pivot[('Sales2017', category)]
 
-# Adicionar labels e título
+# Labels
 plt.xlabel('Mês')
 plt.ylabel('Valor Total das Vendas')
 plt.title('Comparação das Vendas Mensais entre 2016 e 2017 por Categoria de Produto')
