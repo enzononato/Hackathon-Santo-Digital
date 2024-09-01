@@ -30,9 +30,9 @@ O DER foi criado utilizando o Lucidchart e descreve a estrutura das tabelas do b
 
 ## Queries SQL
 
-### 1. Produtos mais vendidos na categoria "Bicicletas"
+### 1. Produtos mais vendidos na categoria "Bikes"
 
-**Pergunta:** Quais são os 10 produtos mais vendidos (em quantidade) na categoria "Bicicletas", considerando apenas vendas feitas nos últimos dois anos?
+**Pergunta:** Quais são os 10 produtos mais vendidos (em quantidade) na categoria "Bikes", considerando apenas vendas feitas nos últimos dois anos?
 
 **Query:**
 
