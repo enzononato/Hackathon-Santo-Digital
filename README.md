@@ -8,16 +8,15 @@ Este repositório contém uma análise detalhada do banco de dados AdventureWork
 - **Base de Dados SQL:** A partir do DER e dos arquivos CSV fornecidos, uma base de dados foi criada para possibilitar a análise.
 - **Queries SQL:** As consultas SQL foram elaboradas para responder a perguntas de negócios específicas, detalhadas a seguir.
 
+## Observações
+- No arquivo main.py os dados da variável db_conn devem ser trocados de acordo com os dados do banco de dados que você está utilizando, sendo obrigatoriamente MySQL.
+
 ## Requisitos
 
 - MySQL Workbench
 - Instalar as bibliotecas dentro do arquivo requirements.txt para execução da tarefa 1 e a tarefa extra. O comando que deve ser utilizado é "pip install -r requirements.txt"
 
 ## Configuração
-
-### Download do Dataset:
-
-Faça o download ou importe o dataset AdventureWorks para seu ambiente SQL.
 
 ### Criação da Base de Dados:
 
@@ -30,9 +29,9 @@ O DER foi criado utilizando o Lucidchart e descreve a estrutura das tabelas do b
 
 ## Queries SQL
 
-### 1. Produtos mais vendidos na categoria "Bikes"
+### 1. Produtos mais vendidos na categoria "Bicicletas"
 
-**Pergunta:** Quais são os 10 produtos mais vendidos (em quantidade) na categoria "Bikes", considerando apenas vendas feitas nos últimos dois anos?
+**Pergunta:** Quais são os 10 produtos mais vendidos (em quantidade) na categoria "Bicicletas", considerando apenas vendas feitas nos últimos dois anos?
 
 **Query:**
 
@@ -188,13 +187,45 @@ WHERE CurrentRevenue > (
 );
 ```
 
+### 5. Query Extra
+
+
+
+**Pergunta:**  Qual é a receita total gerada por cada cliente em cada trimestre, e qual é a posição de cada cliente em relação à receita total dentro de cada trimestre?
+
+**Query**
+
+```sql
+WITH QuarterlyRevenue AS (
+    SELECT CustomerKey,
+           EXTRACT(QUARTER FROM OrderDate) AS Quarter,
+           YEAR(OrderDate) AS Year,
+           SUM(OrderQuantity * p.ProductPrice) AS TotalRevenue
+    FROM adventureworks_sales_2017 s
+    JOIN adventureworks_products p ON s.ProductKey = p.ProductKey
+    GROUP BY CustomerKey, Quarter, Year
+),
+RankedRevenue AS (
+    SELECT CustomerKey,
+           Quarter,
+           Year,
+           TotalRevenue,
+           RANK() OVER (PARTITION BY Year, Quarter ORDER BY TotalRevenue DESC) AS RevenueRank
+    FROM QuarterlyRevenue
+)
+SELECT c.FirstName, c.LastName, r.Quarter, r.Year, r.TotalRevenue, r.RevenueRank
+FROM RankedRevenue r
+JOIN adventureworks_customers c ON r.CustomerKey = c.CustomerKey
+ORDER BY r.Year, r.Quarter, r.RevenueRank;
+```
+
 --- 
 
-### 5. Visualizações de Dados - AdventureWorks
+## 5. Visualizações de Dados - AdventureWorks
 
 Este conjunto de visualizações foi criado para fornecer insights sobre o desempenho da empresa AdventureWorks usando o conjunto de dados disponível.
 
-## Visualização #1: Gráfico de Linha - Tendência das Vendas Totais ao Longo do Tempo
+### Visualização #1: Gráfico de Linha - Tendência das Vendas Totais ao Longo do Tempo
 
 **Descrição:**
 - **Objetivo:** Mostrar a tendência das vendas mensais ao longo do tempo e identificar os meses de pico de vendas.
@@ -207,7 +238,7 @@ Este conjunto de visualizações foi criado para fornecer insights sobre o desem
   - Linha de tendência para prever vendas futuras com base nos dados históricos.
 - **Insights Esperados:** Identificação de padrões sazonais, meses de alta e baixa nas vendas, e projeções de vendas futuras.
 
-## Visualização #2: Gráfico de Barras - Top 10 Produtos Mais Vendidos na Categoria "Bicicletas"
+### Visualização #2: Gráfico de Barras - Top 10 Produtos Mais Vendidos na Categoria "Bicicletas"
 
 **Descrição:**
 - **Objetivo:** Apresentar os 10 produtos mais vendidos na categoria "Bicicletas" e o lucro gerado por cada produto.
@@ -219,7 +250,7 @@ Este conjunto de visualizações foi criado para fornecer insights sobre o desem
   - Barras secundárias ou sobrepostas para mostrar o lucro gerado por produto.
 - **Insights Esperados:** Identificação dos produtos mais lucrativos dentro da categoria de "Bicicletas" e relação entre quantidade vendida e lucro.
 
-## Visualização #3: Mapa de Calor - Vendas por Região e Mês
+### Visualização #3: Mapa de Calor - Vendas por Região e Mês
 
 **Descrição:**
 - **Objetivo:** Visualizar o volume total de vendas por região e mês, permitindo análise de desempenho regional e sazonal.
@@ -231,7 +262,7 @@ Este conjunto de visualizações foi criado para fornecer insights sobre o desem
   - Filtro interativo para permitir a seleção de diferentes categorias de produtos.
 - **Insights Esperados:** Compreensão de quais regiões são mais fortes em termos de vendas e em quais meses, além de como essas dinâmicas variam por categoria de produto.
 
-## Visualização #4: Gráfico de Dispersão - Relação entre Número de Vendas e Valor Total por Cliente
+### Visualização #4: Gráfico de Dispersão - Relação entre Número de Vendas e Valor Total por Cliente
 
 **Descrição:**
 - **Objetivo:** Explorar a relação entre o número de vendas e o valor total de vendas por cliente.
@@ -243,7 +274,7 @@ Este conjunto de visualizações foi criado para fornecer insights sobre o desem
   - Linha de regressão para destacar a tendência geral.
 - **Insights Esperados:** Identificação de padrões de compra entre os clientes, incluindo possíveis outliers e a correlação entre frequência de compra e valor total.
 
-## Visualização #5: Gráfico de Barras Empilhadas - Comparação de Vendas Mensais entre Dois Anos
+### Visualização #5: Gráfico de Barras Empilhadas - Comparação de Vendas Mensais entre Dois Anos
 
 **Descrição:**
 - **Objetivo:** Comparar as vendas mensais de dois anos consecutivos e analisar as tendências de crescimento ou declínio por categoria de produto.
